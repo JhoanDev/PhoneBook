@@ -1,4 +1,4 @@
-package com.example.phonebook
+package com.example.phonebook.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonLogin.setOnClickListener{}
+        binding.buttonLogin.setOnClickListener{
+            startActivity(Intent(this, MainActivity::class.java))
+        }
         binding.textSignUp.setOnClickListener{
             startActivity(Intent(this, SingUpActivity::class.java))
         }
