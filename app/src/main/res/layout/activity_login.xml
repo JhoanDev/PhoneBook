@@ -32,7 +32,8 @@
             android:drawableStart="@drawable/baseline_person_24"
             android:gravity="center"
             android:hint="@string/username"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="admin"/>
 
         <EditText
             android:id="@+id/edit_password"
@@ -42,7 +43,8 @@
             android:drawableStart="@drawable/baseline_lock_24"
             android:gravity="center"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:text="admin"/>
 
         <CheckBox
             android:id="@+id/checkbox_logged"
