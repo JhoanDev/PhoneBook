@@ -44,7 +44,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.buttonAdd.setOnClickListener {}
-        startActivity(Intent(applicationContext, NewContactActivity::class.java))
+        binding.buttonAdd.setOnClickListener {
+            startActivity(
+                Intent(
+                    applicationContext,
+                    NewContactActivity::class.java
+                )
+            )
+        }
+
     }
 }
