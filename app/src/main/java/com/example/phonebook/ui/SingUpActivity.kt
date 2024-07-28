@@ -8,7 +8,6 @@ import com.example.phonebook.databinding.ActivitySingUpBinding
 
 class SingUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySingUpBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySingUpBinding.inflate(layoutInflater)
@@ -23,36 +22,35 @@ class SingUpActivity : AppCompatActivity() {
 
             when {
                 username.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty() -> {
-                    Toast.makeText(
-                        applicationContext, "Please fill in all fields", Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("Please fill in all fields")
                 }
 
                 password != passwordConfirm -> {
-                    Toast.makeText(
-                        applicationContext, "Passwords do not match", Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("Passwords do not match")
                 }
 
                 else -> {
                     val result = db.insertUser(username, password)
                     if (result > 0) {
-                        Toast.makeText(
-                            applicationContext, "Sign up successful!", Toast.LENGTH_SHORT
-                        ).show()
+                        showToast("Sign up successful!")
                         finish()
                     } else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Sign up failed, please try again",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        binding.editUsername.text.clear()
-                        binding.editPassword.text.clear()
-                        binding.editConfirmPassword.text.clear()
+                        showToast("Sign up failed, please try again")
+                        clearFields()
                     }
                 }
             }
         }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun clearFields() {
+        binding.editUsername.text.clear()
+        binding.editPassword.text.clear()
+        binding.editConfirmPassword.text.clear()
+    }
+
 }

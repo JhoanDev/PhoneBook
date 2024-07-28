@@ -16,7 +16,9 @@ class NewContactActivity : AppCompatActivity() {
         binding = ActivityNewContactBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val resultIntent = intent
         val db = DBHelper(applicationContext)
+
         binding.buttonSave.setOnClickListener {
             val name = binding.editName.text.toString().trim()
             val address = binding.editAddress.text.toString().trim()
@@ -24,21 +26,33 @@ class NewContactActivity : AppCompatActivity() {
             val phone = binding.editPhone.text.toString().trim()
             val imageId = 1
 
-            if (name.isNotEmpty() && address.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty()) {
-                val result = db.insertContact(name, address, email, phone.toInt(), imageId)
-                if (result > 0) {
-                    Toast.makeText(applicationContext, "Contact saved successfully!", Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    Toast.makeText(applicationContext, "Failed to save contact. Please try again.", Toast.LENGTH_SHORT).show()
+            when {
+                name.isEmpty() || address.isEmpty() || email.isEmpty() || phone.isEmpty() -> {
+                    showToast("Please fill in all fields correctly.")
                 }
-            } else {
-                Toast.makeText(applicationContext, "Please fill in all fields correctly.", Toast.LENGTH_SHORT).show()
+
+                else -> {
+                    val result =
+                        db.insertContact(name, address, email, phone.toIntOrNull() ?: 0, imageId)
+                    if (result > 0) {
+                        showToast("Contact saved successfully!")
+                        setResult(1, resultIntent)
+                        finish()
+                    } else {
+                        showToast("Failed to save contact. Please try again.")
+                    }
+                }
             }
         }
 
-        binding.buttonCancel.setOnClickListener{
+        binding.buttonCancel.setOnClickListener {
+            setResult(0, resultIntent)
             finish()
         }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

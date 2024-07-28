@@ -21,47 +21,54 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val db = DBHelper(this)
+        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
 
-        sharedPreferences = application.getSharedPreferences("login", Context.MODE_PRIVATE)
-
-        val usernameT = sharedPreferences.getString("username", "")
-        if (!usernameT.isNullOrEmpty()) {
+        sharedPreferences.getString("username", "")?.takeIf { it.isNotEmpty() }?.let {
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         binding.buttonLogin.setOnClickListener {
             val username = binding.editUsername.text.toString().trim()
             val password = binding.editPassword.text.toString().trim()
-            val logged = binding.checkboxLogged.isChecked
+            val isChecked = binding.checkboxLogged.isChecked
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
-                val loginSuccess = db.login(username, password)
-                if (loginSuccess) {
-                    if (logged){
-                        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                        editor.putString("username", username)
-                        editor.apply()
+            when {
+                username.isEmpty() || password.isEmpty() -> {
+                    showToast("Please fill in all fields")
+                }
+
+                db.login(username, password) -> {
+                    if (isChecked) {
+                        sharedPreferences.edit().apply {
+                            putString("username", username)
+                            apply()
+                        }
                     }
-                    Toast.makeText(
-                        applicationContext, "Login successful!", Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("Login successful!")
                     startActivity(Intent(this, MainActivity::class.java))
-                } else {
-                    Toast.makeText(
-                        applicationContext, "Invalid username or password", Toast.LENGTH_SHORT
-                    ).show()
+                    finish()
+                }
+
+                else -> {
+                    showToast("Invalid username or password")
                     binding.editPassword.text.clear()
                     binding.editUsername.text.clear()
                 }
-            } else {
-                Toast.makeText(
-                    applicationContext, "Please fill in all fields", Toast.LENGTH_SHORT
-                ).show()
             }
         }
+
         binding.textSignUp.setOnClickListener {
             startActivity(Intent(this, SingUpActivity::class.java))
         }
-        binding.textRecoverPassword.setOnClickListener {}
+
+        binding.textRecoverPassword.setOnClickListener {
+
+        }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    }
+
 }
