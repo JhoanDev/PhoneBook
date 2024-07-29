@@ -13,21 +13,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/contact_details"
-        android:textSize="35sp"
-        />
+        android:textSize="35sp" />
 
     <ImageView
+        android:id="@+id/image_contact"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@drawable/baseline_person_24"
         android:layout_marginVertical="10dp"
-        android:id="@+id/image_contact"
-        />
+        android:src="@drawable/baseline_person_24" />
 
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:gravity="center"
         android:hint="@string/name"
         android:inputType="text" />
@@ -36,6 +35,7 @@
         android:id="@+id/edit_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:gravity="center"
         android:hint="@string/address"
         android:inputType="text" />
@@ -44,6 +44,7 @@
         android:id="@+id/edit_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:gravity="center"
         android:hint="@string/email"
         android:inputType="textEmailAddress" />
@@ -52,15 +53,44 @@
         android:id="@+id/edit_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:gravity="center"
         android:hint="@string/phone"
         android:inputType="phone" />
 
     <LinearLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layout_edit">
+        <Button
+            android:id="@+id/button_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
+            android:text="@string/edit"
+            android:textSize="20sp"/>
+
+        <Button
+            android:backgroundTint="#830000"
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
+            android:text="@string/back"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_edit_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
         <Button
             android:id="@+id/button_save"
@@ -73,6 +103,7 @@
 
         <Button
             android:id="@+id/button_cancel"
+            android:backgroundTint="#830000"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
@@ -81,6 +112,7 @@
             android:textSize="20sp" />
 
         <Button
+            android:backgroundTint="#BB0000"
             android:id="@+id/button_delete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

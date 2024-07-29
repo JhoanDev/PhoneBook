@@ -3,6 +3,7 @@ package com.example.phonebook.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,13 +33,20 @@ class ContactDetailActivity : AppCompatActivity() {
 
         if (id != null) {
             contactObj = db.getContact(id)!!
+            populate()
+        }else{
+            finish()
+        }
 
-            binding.editName.setText(contactObj.name)
-            binding.editEmail.setText(contactObj.email)
-            binding.editAddress.setText(contactObj.address)
-            binding.editPhone.setText(contactObj.phone.toString())
-            binding.imageContact.setImageDrawable(resources.getDrawable((contactObj.imageId)))
+        binding.buttonBack.setOnClickListener {
+            setResult(0, i)
+            finish()
+        }
 
+        binding.buttonEdit.setOnClickListener{
+            binding.layoutEditDelete.visibility = View.VISIBLE
+            binding.layoutEdit.visibility = View.GONE
+            changeEditText(true)
         }
 
         binding.buttonSave.setOnClickListener {
@@ -54,17 +62,17 @@ class ContactDetailActivity : AppCompatActivity() {
                 showToast("Update ok")
                 setResult(1, i)
                 finish()
-            }else{
+            } else {
                 showToast("Update error")
                 setResult(0, i)
                 finish()
             }
         }
         binding.buttonCancel.setOnClickListener {
-            binding.editName.setText(contactObj.name)
-            binding.editEmail.setText(contactObj.email)
-            binding.editAddress.setText(contactObj.address)
-            binding.editPhone.setText(contactObj.phone.toString())
+            binding.layoutEditDelete.visibility = View.GONE
+            binding.layoutEdit.visibility = View.VISIBLE
+            populate()
+            changeEditText(false)
         }
 
         binding.buttonDelete.setOnClickListener {
@@ -73,7 +81,7 @@ class ContactDetailActivity : AppCompatActivity() {
                 showToast("Delete ok")
                 setResult(1, i)
                 finish()
-            }else{
+            } else {
                 showToast("Delete error")
                 setResult(0, i)
                 finish()
@@ -81,7 +89,12 @@ class ContactDetailActivity : AppCompatActivity() {
         }
 
         binding.imageContact.setOnClickListener {
-            launcher.launch(Intent(applicationContext, ContactImageSelectionActivity::class.java))
+            launcher.launch(
+                Intent(
+                    applicationContext,
+                    ContactImageSelectionActivity::class.java
+                )
+            )
         }
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -96,7 +109,30 @@ class ContactDetailActivity : AppCompatActivity() {
 
     }
 
+    private fun changeEditText(status:Boolean){
+        binding.editName.isEnabled = status
+        binding.editAddress.isEnabled = status
+        binding.editPhone.isEnabled = status
+        binding.editEmail.isEnabled = status
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun populate() {
+        binding.editName.setText(contactObj.name)
+        binding.editEmail.setText(contactObj.email)
+        binding.editAddress.setText(contactObj.address)
+        binding.editPhone.setText(contactObj.phone.toString())
+        if (contactObj.imageId > 0) {
+            binding.imageContact.setImageDrawable(resources.getDrawable((contactObj.imageId)))
+        } else {
+            binding.imageContact.setImageResource(R.drawable.baseline_person_24)
+
+        }
+    }
+
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
+
+
