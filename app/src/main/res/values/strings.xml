@@ -60,4 +60,8 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">delete</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
+    <string name="select_an_image">Select an image</string>
+    <string name="contact_details">Contact Details</string>
 </resources>

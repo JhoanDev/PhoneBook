@@ -12,8 +12,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)",
         "INSERT INTO users (username, password) VALUES ('admin', 'admin')",
         "CREATE TABLE contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, address TEXT, email TEXT UNIQUE, phone INTEGER UNIQUE, imageId INTEGER)",
-        "INSERT INTO contacts (name, address, email, phone, imageId) VALUES ('John Doe', '123 Main St', 'john@example.com', 1234567890, 1)",
-        "INSERT INTO contacts (name, address, email, phone, imageId) VALUES ('Jane Smith', '456 Elm St', 'jane@example.com', 9876543210, 2)"
+        "INSERT INTO contacts (name, address, email, phone, imageId) VALUES ('John Doe', '123 Main St', 'john@example.com', 1234567890, -1)",
+        "INSERT INTO contacts (name, address, email, phone, imageId) VALUES ('Jane Smith', '456 Elm St', 'jane@example.com', 9876543210, -1)"
     )
 
     override fun onCreate(db: SQLiteDatabase?) {
